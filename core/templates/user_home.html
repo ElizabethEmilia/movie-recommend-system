@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="warning">
+            <th>影片名</th>
+            <th>导演</th>
+            <th>分数</th>
+            <th>类型</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in high_score_list %}
+            <tr class="success">
+                <td><a href="/movie/detail/{{movie.id}}/">{{ movie.name }}</a></td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.score }}</td>
+                <td>{{ movie.movietype }}</td>
+                <!-- <a href="/student/score/?user_id={{ student.user.id }}"><img src="/static/1.png" style="width: 30px;height: 30px;"></a></td> -->
+            </tr>
+        {% endfor %}
+
+
+
+    </tbody>
+</table>
+    {% include 'page.html' %}
+
+{% endblock %}

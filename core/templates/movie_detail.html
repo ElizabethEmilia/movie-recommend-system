@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title></title>
+</head>
+
+<body>
+
+
+    {% if scored == '1' %}
+        <p class="alert alert-success">
+            您已成功评价该电影
+            <a href="/index/">
+                <button class="btn btn-primary">
+                    返回首页
+                </button>
+            </a>
+            <a href="/profile/{{request.session.user_id}}/">
+                <button class="btn btn-primary">
+                    前往个人中心查看
+                </button>
+            </a>
+        </p>
+    {% endif %}
+
+    <div style="text-align: center;">
+    <div style="font-size: 40px;">电影名:{{m.name}}</div>
+    <div>{{m.director}}</div>
+    <div>类型:{{m.movietype}}</div>
+    <div>豆瓣评分:{{m.score}}</div>
+    </div>
+    <div><button class="btn" style="font-size: 40px;">请选择您对该电影的评分：</button></div>
+    <div style="text-align: center;">
+        <a href="/movie/score/1/{{m.id}}/" ><button class="btn btn-primary" style="width: 100px;">1星</button></a>
+        <a href="/movie/score/2/{{m.id}}/"><button class="btn btn-primary" style="width: 100px;">2星</button></a>
+        <a href="/movie/score/3/{{m.id}}/"><button class="btn btn-primary" style="width: 100px;">3星</button></a>
+        <a href="/movie/score/4/{{m.id}}/"><button class="btn btn-primary" style="width: 100px;">4星</button></a>
+        <a href="/movie/score/5/{{m.id}}/"><button class="btn btn-primary" style="width: 100px;">5星</button></a>
+    </div>
+<br>
+
+<br>
+<br>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="warning">
+            <th style="width: 10%;">用户</th>
+            <th>评论</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movieUserComment %}
+            <tr class="success">
+                <td>{{ movie.user.name }}</td>
+                <td>{{ movie.comment }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<br>
+<form method="post" action="/movie/recommend/{{m.id}}/" role="form">
+    {% csrf_token %}
+  <div class="form-group">
+    <label for="name">请输入您的评价：</label>
+    <textarea name='recommend' class="form-control" rows="3"></textarea>
+  </div>
+
+  <input type="submit" style="width: 7%;margin-left: 42%;" class="form-control btn-primary" value="确认评价">
+</form>
+
+</body>
+</html>

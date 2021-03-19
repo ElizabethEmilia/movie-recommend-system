@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title></title>
+</head>
+
+<body>
+
+    {% if info %}
+    <p style="margin:0" class="alert alert-info alert-dismissable">{{ info }}
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+    </p>
+    {% endif %}
+
+    {% if error %}
+    <p style="margin:0" class="alert alert-danger alert-dismissable">{{ error }}
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+    </p>
+    {% endif %}
+
+    <form class='form-inline text-center' style="margin-top: 20px;" method="post" action="/search/">
+        {% csrf_token %}
+        <input type="text" placeholder="输入搜索关键字" name='q' class="form-control" style="width:30%;">
+        <button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+
+    <br>
+
+    <nav class="navbar navbar-default">
+        <div class="navbar-header">
+                <a href="/index/" class="navbar-brand">电影分类</a>
+        </div>
+
+        <div class="collapse navbar-collapse">
+            <ul id="ulid" class="nav navbar-nav ">
+
+                <li>
+                    <a href="/type/剧情/">剧情</a>
+                </li>
+                <li >
+                    <a href="/type/喜剧/">喜剧</a>
+                </li>
+
+                <li>
+                    <a href="/type/动画/">动画</a>
+                </li>
+
+                <li >
+                    <a href="/type/冒险/">冒险</a>
+                </li>
+                <li >
+                    <a href="/type/奇幻/">奇幻</a>
+                </li>
+                <li >
+                    <a href="/type/科幻/">科幻</a>
+                </li>
+                <li >
+                    <a href="/type/动作/">动作</a>
+                </li>
+                <li >
+                    <a href="/type/惊悚/">惊悚</a>
+                </li>
+                <li >
+                    <a href="/type/悬疑/">悬疑</a>
+                </li>
+                <li >
+                    <a href="/type/爱情/">爱情</a>
+                </li>
+                <li >
+                    <a href="/type/传记/">传记</a>
+                </li>
+                <li >
+                    <a href="/type/战争/">战争</a>
+                </li>
+                <li >
+                    <a href="/type/历史/">历史</a>
+                </li>
+                <li >
+                    <a href="/type/同性/">同性</a>
+                </li>
+
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/profile/{{ request.session.user_id }}/">{{ request.session.name }}</a>
+                </li>
+                <li>
+                    <a href="/user/logout/">退出</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="nav bg-success">
+        <div  class="navbar-header">
+            <a class="navbar-brand">搜索结果</a>
+        </div>
+
+        <div class="collapse navbar-collapse ">
+            <ul id="ulid" class="nav navbar-nav ">
+
+            </ul>
+
+        </div>
+    </nav>
+    <!-- <div class="container">
+       <div class="row">
+          <div class="col-lg-2" style="border: 1px solid;">1</div>
+          <div class="col-lg-2" style="border: 1px solid;">1</div>
+          <div class="col-lg-2" style="border: 1px solid;">1</div>
+          <div class="col-lg-2" style="border: 1px solid;">1</div>
+          <div class="col-lg-2" style="border: 1px solid;">1</div>
+          <div class="col-lg-2" style="border: 1px solid;">1</div>
+       </div>
+    </div> -->
+<div class="container">
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="warning">
+            <th>影片名</th>
+            <th>导演</th>
+            <th>分数</th>
+            <th>类型</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movies %}
+            <tr class="success">
+                <td><a href="/movie/detail/{{movie.id}}/">{{ movie.name }}</a></td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.score }}</td>
+                <td>{{ movie.movietype }}</td>
+                <!-- <a href="/student/score/?user_id={{ student.user.id }}"><img src="/static/1.png" style="width: 30px;height: 30px;"></a></td> -->
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    {% include 'page.html' %}
+
+</div>
+</body>
+</html>

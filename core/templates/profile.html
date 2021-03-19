@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>电影推荐系统</title>
+</head>
+<body>
+<a href="/index/" style="float: left;"><button class="btn btn-primary">返回首页</button></a>
+
+<form class='form-inline text-center' style="margin-top: 20px; " method="post" action="/search/">
+    {% csrf_token %}
+    <input type="text" placeholder="输入搜索关键字" name='q' class="form-control" style="width:30%;">
+    <button type="submit" class="btn btn-primary">搜索</button>
+
+</form>
+
+<div><button class="btn" style="font-size: 40px;">个人信息：</button></div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="warning">
+            <th>姓名</th>
+            <th>账号</th>
+            <th>密码</th>
+            <th>电话号码</th>
+            <th>兴趣爱好</th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr class="success">
+                <td><a href="">{{ user.name }}</a></td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.mobile }}</td>
+                <td>{{ user.interesting }}</td>
+            </tr>
+    </tbody>
+</table>
+
+
+
+<div><button class="btn" style="font-size: 40px;">已经评价的电影：</button></div>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="warning">
+            <th>影片名</th>
+            <th>导演</th>
+            <th>分数</th>
+            <th>类型</th>
+            <th>您的评分</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in movieUserScore %}
+            <tr class="success">
+                <td><a href="/movie/detail/{{movie.movie.id}}/">{{ movie.movie.name }}</a></td>
+                <td>{{ movie.movie.director }}</td>
+                <td>{{ movie.movie.score }}</td>
+                <td>{{ movie.movie.movietype }}</td>
+                <td>{{ movie.score }}</td>
+                <!-- <a href="/student/score/?user_id={{ student.user.id }}"><img src="/static/1.png" style="width: 30px;height: 30px;"></a></td> -->
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<div><button class="btn" style="font-size: 40px;">您可能感兴趣的电影：</button></div>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr class="warning">
+            <th>影片名</th>
+            <th>导演</th>
+            <th>分数</th>
+            <th>类型</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movie in recommend %}
+            <tr class="success">
+                <td><a href="/movie/detail/{{movie.id}}/">{{ movie.name }}</a></td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.score }}</td>
+                <td>{{ movie.movietype }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% include 'page.html' %}
+</body>
+</html>
